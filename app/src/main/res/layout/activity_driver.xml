@@ -4,27 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="50dp"
+    android:padding="25dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".DriverActivity">
 
-    <Button
-        android:id="@+id/userButtonId"
-        android:textColor="@color/white"
-        android:text="I am a user"
+    <EditText
+        android:id="@+id/emailTextViewId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    </EditText>
 
+    <EditText
+        android:id="@+id/passwordTextViewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </EditText>
+
+    <Button
+        android:textColor="@color/white"
+        android:text="Log In"
+        android:id="@+id/logInButtonId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     </Button>
 
     <Button
-        android:id="@+id/riderButtonId"
         android:textColor="@color/white"
-        android:text="I am a rider"
+        android:text="Sign In"
+        android:id="@+id/signInButtonId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </Button>
 
 </LinearLayout>
