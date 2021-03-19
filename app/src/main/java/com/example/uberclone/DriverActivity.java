@@ -37,7 +37,7 @@ public class DriverActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user!=null){
-                    startActivity(new Intent(getApplicationContext(),MapActivity.class));
+                    startActivity(new Intent(getApplicationContext(),DriverMapsActivity.class));
                     finish();
                 }
             }
@@ -57,7 +57,7 @@ public class DriverActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(),MapActivity.class));
+                            startActivity(new Intent(getApplicationContext(),DriverMapsActivity.class));
                             finish();
                         }else{
                             Toast.makeText(getApplicationContext(),"Log In Error",Toast.LENGTH_LONG).show();
