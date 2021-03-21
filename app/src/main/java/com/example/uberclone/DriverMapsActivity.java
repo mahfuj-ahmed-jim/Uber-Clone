@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,10 +36,15 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     private Location lastLocation;
     private LocationRequest locationRequest;
 
+    private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_maps);
+
+        auth = FirebaseAuth.getInstance();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         // starts the map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -62,6 +70,7 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(true);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
 
     }
 
@@ -78,19 +87,17 @@ public class DriverMapsActivity extends FragmentActivity implements OnMapReadyCa
     public void onLocationChanged(@NonNull Location location) {
         lastLocation = location;
 
-        Log.d("Last Location",String.valueOf(location.getLatitude())+" "+String.valueOf(location.getLongitude()));
-
-        Toast.makeText(getApplicationContext(),"Hello",Toast.LENGTH_LONG).show();
-
-        // 23.7420706 90.4287684 area value
-
-        //DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                //.child("Place").child("Drivers").child(String.valueOf(location.getLatitude())+" "+String.valueOf(location.getLongitude()));
-
         LatLng latLng = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Location").child("Driver");
+
+        Location1 location1 = new Location1((double)lastLocation.getLatitude(), (double)lastLocation.getLongitude());
+
+        databaseReference.setValue(location1);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Bashabo"));
 
     }
 
